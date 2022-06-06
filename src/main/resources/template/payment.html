@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+<form th:action="@{/client}" action=""><input type="submit" value="Домой!"></form>
+<table border="1" bgcolor="#f5f5dc">
+    <thead>
+
+    <!--/*@thymesVar id="paymentDto" type="ru.gor.app.models.dto.payment.PaymentDto"*/-->
+    <tr>
+        <th colspan="4" align="center"><h3 th:text="'Баланс: ' + ${paymentDto.getBalance()}"/></th>
+    </tr>
+    <tr>
+        <th> Отправитель</th>
+        <th> Получатель</th>
+        <th colspan="2"> Cумма</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <!--/*@thymesVar id="paymentDto" type="ru.gor.app.models.dto.payment.PaymentDto"*/-->
+    <form th:method="POST" action=# th:object="${paymentDto}">
+        <!--            <input type="hidden" th:field="*{sender.id}">-->
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td th:utext="${paymentDto.getName()}">NAME</td>
+                        <td th:utext="${paymentDto.getPhone()}">NUMBER</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <select th:field="*{payee_id}">
+                    <option th:each="user : ${paymentDto.getClientList()}" th:value="${user.getId()}"
+                            th:utext="${user.getName()} + ' ' + ${user.getPhone()}"></option>
+                </select>
+            </td>
+            <td><input type="text" th:field="*{sum}"></td>
+            <input type="hidden" th:field="*{clientList}">
+            <input type="hidden" th:field="*{balance}">
+            <input type="hidden" th:field="*{name}">
+            <input type="hidden" th:field="*{phone}">
+            <td align="center"><input type="submit" value="Отправить"></td>
+        </tr>
+        <tr th:if="*{#fields.hasErrors()}" style="color: crimson">
+            <td colspan="4" style="alignment: center"><b th:if="${#fields.hasErrors('sum')}" th:errors="*{sum}"></b></td>
+        </tr>
+    </form>
+    </tbody>
+</table>
+</body>
+</html>

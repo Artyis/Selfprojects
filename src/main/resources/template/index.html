@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title> Users </title>
+</head>
+<body>
+<table border="1" bgcolor="#f5f5dc">
+  <thead>
+  <tr>
+    <th> ID</th>
+    <th> NAME</th>
+    <th> NUMBER</th>
+    <th> BALANCE</th>
+  </thead>
+  <tbody>
+  <!--/*@thymesVar id="clientList" type="ru.gor.app.models.dto.client.ListClientDto"*/-->
+  <!--/*@thymesVar id="getClient" type="ru.gor.app.models.entity.Client"*/-->
+  <tr th:each="usr : ${clientList}">
+    <td><p th:text="${getClient.getId()}"> Product </p></td>
+    <td><a th:href="@{/client/{id}(id=${getClient.getId()})}" th:text="${getClient.getName()}"> Price </a></td>
+    <td><p th:text="${getClient.getPhone()}"> Count </p></td>
+    <td><p th:text="${getClient.getBalance()}"></p></td>
+  </tr>
+  <!--/*@thymesVar id="newClient" type="ru.gor.app.models.dto.client.ClientDto"*/-->
+  <form th:method="POST" action=# th:object="${newClient}">
+    <tr>
+      <th colspan="4" align="center"> CREATE NEW USER:</th>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="text" th:field="*{name}"></td>
+      <td><input type="text" th:field="*{phone}"></td>
+      <td><input type="number" th:field="*{balance}"></td>
+    </tr>
+    <tr th:if="${#fields.hasErrors()}" style="color: crimson">
+      <td></td>
+      <td><b th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></b></td>
+      <td><b th:if="${#fields.hasErrors('number')}" th:errors="*{phone}"></b></td>
+      <td><b th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}"></b></td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center"><input type="submit" value="Create Client"></td>
+    </tr>
+  </form>
+  </tbody>
+</table>
+
+</body>
+
+</html>

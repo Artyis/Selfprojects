@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+<form th:action="@{/client}" action=""><input type="submit" value="Домой!"></form>
+<table border="1" bgcolor="#f5f5dc">
+    <td>
+        <table>
+            <thead>
+            <tr>
+                <th align="center" colspan="3">Edit or delete</th>
+            </tr>
+            <tr>
+                <th> NAME</th>
+                <th> NUMBER</th>
+                <th> BALANCE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="clientDto" type="ru.gor.app.models.dto.client.ClientDto"*/-->
+            <form th:method="PATCH" action="#" th:object="${clientDto}">
+                <tr>
+                    <td><input type="text" th:field="*{name}"></td>
+                    <td><input type="text" th:field="*{phone}"></td>
+                    <td><input type="number" step="0.01" th:field="*{balance}"></td>
+                </tr>
+                <tr th:if="${#fields.hasErrors()}" style="color: crimson">
+                    <td><b th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></b></td>
+                    <td><b th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></b></td>
+                    <td><b th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}"></b></td>
+                </tr>
+                <tr>
+                    <th colspan="3"><input type="submit" value="Edit Client"></th>
+                </tr>
+            </form>
+            <form th:method="DELETE" action=#>
+                <tr>
+                    <td colspan="3" align="left"><input type="submit" value="Delete Client"></td>
+                </tr>
+            </form>
+            </tbody>
+        </table>
+    </td>
+    <td>
+        <form th:action="@{/payment/{id}(id = ${id})}"><input type="submit"
+                                                              value="Выполнить перевод"></form>
+        <form th:action="@{/payment/history/{id}(id = ${id})}"><input type="submit" value="Посмотреть историю"></form>
+    </td>
+</table>
+</body>
+</html>

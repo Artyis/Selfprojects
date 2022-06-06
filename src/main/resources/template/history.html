@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>История переводов</title>
+</head>
+<body>
+<form th:action="@{/client}" action=""><input type="submit" value="Домой!"></form>
+<table border="1" bgcolor="#f5f5dc">
+    <!--/*@thymesVar id="payments" type="ru.gor.app.models.dto.payment.PaymentHistoryDto"*/-->
+    <thead>
+    <tr>
+        <td colspan="2">Поиск по клиенту:
+            <form th:object="${payments}">
+                <select th:field="*{payments.filter_id}">
+                    <!--/*@thymesVar id="user" type="ru.gor.app.models.entity.Client"*/-->
+                    <option th:each="user : ${payments.getClientList()}" th:value="${user.getId()}"
+                            th:utext="${user.getName()} + ' ' + ${user.getPhone()}"></option>
+                </select>
+                <input type="submit" value=" Поиск! ">
+            </form>
+            <form th:object="${payments}">
+                <input type="hidden" name="filter_id" value="0">
+                <input type="submit" value=" Очистить фильтр ">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <th> Переводы</th>
+        <th> Отправления</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr valign="top">
+        <td>
+            <table>
+                <tr>
+                    <th> Сумма</th>
+                    <th> Отправитель</th>
+                </tr>
+                <tr th:each="inPay : ${payments.getInPay()}">
+                    <!--/*@thymesVar id="inPay" type="ru.gor.app.models.entity.Payment"*/-->
+                    <td style="color: #408600" th:utext="${inPay.getSum()}"></td>
+                    <td th:utext="${inPay.getSender().getName()} + ' ' + ${inPay.getSender().getPhone()}"></td>
+                    <td th:utext="${inPay.getMessage()}"></td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <th> Сумма</th>
+                    <th> Получатель</th>
+                </tr>
+                <tr th:each="inPay : ${payments.getOutPay()}">
+                    <!--/*@thymesVar id="inPay" type="ru.gor.app.models.entity.Payment"*/-->
+                    <td style="color: crimson" th:utext="${inPay.getSum()}"></td>
+                    <td th:utext="${inPay.payee.getName()} + ' ' + ${inPay.payee.getPhone()}"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
